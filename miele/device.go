@@ -56,7 +56,16 @@ type XkmIdentLabel struct {
 }
 
 type State struct {
-	Status int `json:"status"`
+	Status        LocalizedValue `json:"status"`
+	ProgramType   LocalizedValue `json:"programType"`
+	ProgramPhase  LocalizedValue `json:"programPhase"`
+	SignalInfo    bool           `json:"signalInfo"`
+	SignalFailure bool           `json:"signalFailure"`
+	SignalDoor    bool           `json:"signalDoor"`
+	RemoteEnable  struct {
+		FullRemoteControl bool `json:"fullRemoteControl"`
+		SmartGrid         bool `json:"smartGrid"`
+	} `json:"remoteEnable"`
 }
 
 type Device struct {

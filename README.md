@@ -18,7 +18,7 @@ func main() {
     token := os.Getenv("MIELE_AUTH_TOKEN")
     // You may optionally include your own http client
     client := miele.NewClient(nil, token)
-    devices, err := client.Devices.List()
+    devices, err := client.ListDevices(miele.ListDevicesRequest{})
     if err != nil {
     	panic(err)
     }
