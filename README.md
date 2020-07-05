@@ -18,10 +18,10 @@ func main() {
     token := os.Getenv("MIELE_AUTH_TOKEN")
     // You may optionally include your own http client
     client := miele.NewClient(nil, token)
-    site, err := client.Site.List(&solaredge.ListOptions{Page: 2, PerPage: 1})
+    devices, err := client.Devices.List()
     if err != nil {
     	panic(err)
     }
-    fmt.Println(site)
+    fmt.Println(devices)
 }
 ```

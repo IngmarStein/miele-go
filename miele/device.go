@@ -20,17 +20,27 @@ const (
 	DEVICE_STATUS_NOT_CONNECTED               = 255
 )
 
+const (
+	ACTION_START               = 1
+	ACTION_STOP                = 2
+	ACTION_PAUSE               = 3
+	ACTION_START_SUPERFREEZING = 4
+	STOP_SUPERFREEZING         = 5
+	START_SUPERCOOLING         = 6
+	STOP_SUPERCOOLING          = 7
+)
+
 type LocalizedValue struct {
-	valueRaw       string `json:"value_raw"`
-	valueLocalized string `json:"value_localized"`
-	keyLocalized   string `json:"key_localized"`
+	ValueRaw       string `json:"value_raw"`
+	ValueLocalized string `json:"value_localized"`
+	KeyLocalized   string `json:"key_localized"`
 }
 
 type DeviceIdentLabel struct {
-	fabNumber string `json:"fabNumber"`
-	fabIndex  int    `json:"fabIndex"`
-	techType  string `json:"techType"`
-	matNumber int    `json:"matNumber"`
+	FabNumber string `json:"fabNumber"`
+	FabIndex  int    `json:"fabIndex"`
+	TechType  string `json:"techType"`
+	MatNumber int    `json:"matNumber"`
 }
 
 type Ident struct {
@@ -46,10 +56,10 @@ type XkmIdentLabel struct {
 }
 
 type State struct {
-	status int `json:"status"`
+	Status int `json:"status"`
 }
 
 type Device struct {
-	ident Ident `json:"ident"`
-	state State `json:"state"`
+	Ident Ident `json:"ident"`
+	State State `json:"state"`
 }
