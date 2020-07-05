@@ -20,7 +20,7 @@ type ListDevicesRequest struct {
 type ListDevicesResponse []Device
 
 func (c *Client) ListDevices(request ListDevicesRequest) (ListDevicesResponse, error) {
-	u, err := addOptions("/devices", request)
+	u, err := addOptions("devices", request)
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +39,7 @@ type GetDeviceRequest struct {
 }
 
 func (c *Client) GetDevice(deviceID string, request GetDeviceRequest) (Device, error) {
-	u, err := addOptions(fmt.Sprintf("/devices/%s/state", deviceID), request)
+	u, err := addOptions(fmt.Sprintf("devices/%s/state", deviceID), request)
 	if err != nil {
 		return Device{}, err
 	}
@@ -58,7 +58,7 @@ type GetDeviceStateRequest struct {
 }
 
 func (c *Client) GetDeviceState(deviceID string, request GetDeviceStateRequest) (State, error) {
-	u, err := addOptions(fmt.Sprintf("/devices/%s/state", deviceID), request)
+	u, err := addOptions(fmt.Sprintf("devices/%s/state", deviceID), request)
 	if err != nil {
 		return State{}, err
 	}
@@ -77,7 +77,7 @@ type GetDeviceIdentRequest struct {
 }
 
 func (c *Client) GetDeviceIdent(deviceID string, request GetDeviceStateRequest) (Ident, error) {
-	u, err := addOptions(fmt.Sprintf("/devices/%s/ident", deviceID), request)
+	u, err := addOptions(fmt.Sprintf("devices/%s/ident", deviceID), request)
 	if err != nil {
 		return Ident{}, err
 	}
@@ -99,7 +99,7 @@ type DeviceActionRequest struct {
 }
 
 func (c *Client) DeviceAction(deviceID string, request DeviceActionRequest) error {
-	u := fmt.Sprintf("/devices/%s/actions", deviceID)
+	u := fmt.Sprintf("devices/%s/actions", deviceID)
 	body, err := json.Marshal(request)
 	if err != nil {
 		return err
