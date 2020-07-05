@@ -31,7 +31,7 @@ const (
 )
 
 type LocalizedValue struct {
-	ValueRaw       string `json:"value_raw"`
+	ValueRaw       int    `json:"value_raw"`
 	ValueLocalized string `json:"value_localized"`
 	KeyLocalized   string `json:"key_localized"`
 }

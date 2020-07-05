@@ -72,6 +72,25 @@ func (c *Client) GetDeviceState(deviceID string, request GetDeviceStateRequest) 
 	return response, err
 }
 
+type GetDeviceIdentRequest struct {
+	LocalizedRequest
+}
+
+func (c *Client) GetDeviceIdent(deviceID string, request GetDeviceStateRequest) (Ident, error) {
+	u, err := addOptions(fmt.Sprintf("/devices/%s/ident", deviceID), request)
+	if err != nil {
+		return Ident{}, err
+	}
+
+	req, err := c.NewRequest("GET", u, nil)
+	if err != nil {
+		return Ident{}, err
+	}
+	var response Ident
+	_, err = c.do(req, &response)
+	return response, err
+}
+
 type DeviceActionRequest struct {
 	ProcessAction int  `json:"processAction"`
 	Light         int  `json:"light"`
