@@ -38,9 +38,9 @@ type LocalizedValue struct {
 
 type DeviceIdentLabel struct {
 	FabNumber string `json:"fabNumber"`
-	FabIndex  int    `json:"fabIndex"`
+	FabIndex  string `json:"fabIndex"`
 	TechType  string `json:"techType"`
-	MatNumber int    `json:"matNumber"`
+	MatNumber string `json:"matNumber"`
 }
 
 type Ident struct {
