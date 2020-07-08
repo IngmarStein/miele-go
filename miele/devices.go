@@ -17,7 +17,7 @@ type ListDevicesRequest struct {
 	LocalizedRequest
 }
 
-type ListDevicesResponse []Device
+type ListDevicesResponse map[string]Device
 
 func (c *Client) ListDevices(request ListDevicesRequest) (ListDevicesResponse, error) {
 	u, err := addOptions("devices", request)
