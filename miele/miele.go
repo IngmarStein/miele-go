@@ -81,16 +81,13 @@ func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Requ
 }
 
 func (c *Client) do(req *http.Request, v interface{}) (*http.Response, error) {
-	fmt.Println(req)
 	resp, err := c.client.Do(req)
 	if err != nil {
 		return nil, err
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusNoContent {
-		fmt.Println(resp.Body)
 		err = json.NewDecoder(resp.Body).Decode(v)
-		fmt.Println(resp)
 	}
 	return resp, err
 }
