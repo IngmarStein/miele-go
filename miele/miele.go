@@ -1,3 +1,5 @@
+// Package miele implements a client for the Miele 3rd Party API.
+// See https://www.miele.com/developer/swagger-ui/index.html.
 package miele
 
 import (

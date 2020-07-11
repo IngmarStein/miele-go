@@ -63,6 +63,13 @@ const (
 	LIGHT_DISABLE = 2
 )
 
+const (
+	VENTILATION_STEP1 = 1
+	VENTILATION_STEP2 = 2
+	VENTILATION_STEP3 = 3
+	VENTILATION_STEP4 = 4
+)
+
 type LocalizedValue struct {
 	ValueRaw       int    `json:"value_raw"`
 	ValueLocalized string `json:"value_localized"`
@@ -104,4 +111,28 @@ type State struct {
 type Device struct {
 	Ident Ident `json:"ident"`
 	State State `json:"state"`
+}
+
+type ShortDevice struct {
+	FabNumber  string `json:"fabNumber"`
+	State      string `json:"state"`
+	Type       string `json:"type"`
+	DeviceName string `json:"deviceName"`
+	Details    string `json:"details"`
+}
+
+type DeviceAction struct {
+	ProcessAction     []int   `json:"processAction"`
+	Light             []int   `json:"light"`
+	StartTime         [][]int `json:"startTime"`
+	VentilationStep   []int   `json:"ventilationStep"`
+	ProgramId         []int   `json:"programId"`
+	TargetTemperature []struct {
+		Zone int `json:"zone"`
+		Min  int `json:"min"`
+		Max  int `json:"max"`
+	} `json:"targetTemperature"`
+	DeviceName bool `json:"deviceName"`
+	PowerOff   bool `json:"powerOff"`
+	PowerOn    bool `json:"powerOn"`
 }

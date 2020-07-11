@@ -5,7 +5,7 @@ GOTEST=$(GOCMD) test
 
 .phony: all lib test clean
 
-all: test lib
+all: lib
 
 lib: miele/*.go
 	$(GOBUILD) -v ./...

@@ -33,6 +33,27 @@ func (c *Client) ListDevices(request ListDevicesRequest) (ListDevicesResponse, e
 	return response, err
 }
 
+type ListShortDevicesRequest struct {
+	LocalizedRequest
+}
+
+type ListShortDevicesResponse []ShortDevice
+
+func (c *Client) ListShortDevices(request ListShortDevicesRequest) (ListShortDevicesResponse, error) {
+	u, err := addOptions("short/devices", request)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := c.NewRequest("GET", u, nil)
+	if err != nil {
+		return ListShortDevicesResponse{}, err
+	}
+	var response ListShortDevicesResponse
+	_, err = c.do(req, &response)
+	return response, err
+}
+
 type GetDeviceRequest struct {
 	LocalizedRequest
 }
@@ -48,6 +69,25 @@ func (c *Client) GetDevice(deviceID string, request GetDeviceRequest) (Device, e
 		return Device{}, err
 	}
 	var response Device
+	_, err = c.do(req, &response)
+	return response, err
+}
+
+type GetDeviceIdentRequest struct {
+	LocalizedRequest
+}
+
+func (c *Client) GetDeviceIdent(deviceID string, request GetDeviceStateRequest) (Ident, error) {
+	u, err := addOptions(fmt.Sprintf("devices/%s/ident", deviceID), request)
+	if err != nil {
+		return Ident{}, err
+	}
+
+	req, err := c.NewRequest("GET", u, nil)
+	if err != nil {
+		return Ident{}, err
+	}
+	var response Ident
 	_, err = c.do(req, &response)
 	return response, err
 }
@@ -71,21 +111,23 @@ func (c *Client) GetDeviceState(deviceID string, request GetDeviceStateRequest) 
 	return response, err
 }
 
-type GetDeviceIdentRequest struct {
+type GetDeviceActionsRequest struct {
 	LocalizedRequest
 }
 
-func (c *Client) GetDeviceIdent(deviceID string, request GetDeviceStateRequest) (Ident, error) {
-	u, err := addOptions(fmt.Sprintf("devices/%s/ident", deviceID), request)
+type GetDeviceActionsResponse []DeviceAction
+
+func (c *Client) GetDeviceActions(deviceID string, request GetDeviceActionsRequest) (GetDeviceActionsResponse, error) {
+	u, err := addOptions(fmt.Sprintf("devices/%s/actions", deviceID), request)
 	if err != nil {
-		return Ident{}, err
+		return GetDeviceActionsResponse{}, err
 	}
 
 	req, err := c.NewRequest("GET", u, nil)
 	if err != nil {
-		return Ident{}, err
+		return GetDeviceActionsResponse{}, err
 	}
-	var response Ident
+	var response GetDeviceActionsResponse
 	_, err = c.do(req, &response)
 	return response, err
 }
