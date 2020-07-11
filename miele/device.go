@@ -1,6 +1,34 @@
 package miele
 
 const (
+	DEVICE_TYPE_WASHING_MACHINE                  = 1
+	DEVICE_TYPE_TUMBLE_DRYER                     = 2
+	DEVICE_TYPE_DISHWASHER                       = 7
+	DEVICE_TYPE_OVEN                             = 12
+	DEVICE_TYPE_OVEN_MICROWAVE                   = 13
+	DEVICE_TYPE_HOB_HIGHLIGHT                    = 14
+	DEVICE_TYPE_STEAM_OVEN                       = 15
+	DEVICE_TYPE_MICROWAVE                        = 16
+	DEVICE_TYPE_COFFEE_SYSTEM                    = 17
+	DEVICE_TYPE_HOOD                             = 18
+	DEVICE_TYPE_FRIDGE                           = 19
+	DEVICE_TYPE_FREEZER                          = 20
+	DEVICE_TYPE_FRIDGE_FREEZER_COMBINATION       = 21
+	DEVICE_TYPE_VACUUM_CLEANER                   = 23
+	DEVICE_TYPE_WASHER_DRYER                     = 24
+	DEVICE_TYPE_DISH_WARMER                      = 25
+	DEVICE_TYPE_HOB_INDUCTION                    = 27
+	DEVICE_TYPE_STEAM_OVEN_COMBINATION           = 31
+	DEVICE_TYPE_WINE_CABINET                     = 32
+	DEVICE_TYPE_WINE_CONDITIONING_UNIT           = 33
+	DEVICE_TYPE_WINE_STORAGE_CONDITIONING_UNIT   = 34
+	DEVICE_TYPE_STEAM_OVEN_MICROWAVE_COMBINATION = 45
+	DEVICE_TYPE_VACUUM_DRAWER                    = 48
+	DEVICE_TYPE_DIALOGOVEN                       = 67
+	DEVICE_TYPE_WINE_CABINET_FREEZER_COMBINATION = 68
+)
+
+const (
 	DEVICE_STATUS_OFF                         = 1
 	DEVICE_STATUS_ON                          = 2
 	DEVICE_STATUS_PROGRAMMED                  = 3
