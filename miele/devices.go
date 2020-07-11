@@ -1,7 +1,6 @@
 package miele
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 )
@@ -92,19 +91,15 @@ func (c *Client) GetDeviceIdent(deviceID string, request GetDeviceStateRequest) 
 }
 
 type DeviceActionRequest struct {
-	ProcessAction int  `json:"processAction"`
-	Light         int  `json:"light"`
-	PowerOn       bool `json:"powerOn"`
-	PowerOff      bool `json:"powerOff"`
+	ProcessAction int  `json:"processAction,omitempty"`
+	Light         int  `json:"light,omitempty"`
+	PowerOn       bool `json:"powerOn,omitempty"`
+	PowerOff      bool `json:"powerOff,omitempty"`
 }
 
 func (c *Client) DeviceAction(deviceID string, request DeviceActionRequest) error {
 	u := fmt.Sprintf("devices/%s/actions", deviceID)
-	body, err := json.Marshal(request)
-	if err != nil {
-		return err
-	}
-	req, err := c.NewRequest("PUT", u, body)
+	req, err := c.NewRequest("PUT", u, request)
 	if err != nil {
 		return err
 	}
