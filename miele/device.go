@@ -30,6 +30,11 @@ const (
 	STOP_SUPERCOOLING          = 7
 )
 
+const (
+	LIGHT_ENABLE  = 1
+	LIGHT_DISABLE = 2
+)
+
 type LocalizedValue struct {
 	ValueRaw       int    `json:"value_raw"`
 	ValueLocalized string `json:"value_localized"`

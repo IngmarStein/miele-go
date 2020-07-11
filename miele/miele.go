@@ -5,7 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
+	"net/http/httputil"
 	"net/url"
 	"reflect"
 	"strings"
@@ -21,6 +23,7 @@ const (
 type Client struct {
 	BaseURL   *url.URL
 	UserAgent string
+	Verbose   bool
 
 	client *http.Client
 }
@@ -81,7 +84,20 @@ func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Requ
 }
 
 func (c *Client) do(req *http.Request, v interface{}) (*http.Response, error) {
+	if c.Verbose {
+		if d, err := httputil.DumpRequest(req, true); err == nil {
+			log.Println(string(d))
+		}
+	}
+
 	resp, err := c.client.Do(req)
+
+	if c.Verbose {
+		if d, err := httputil.DumpResponse(resp, true); err == nil {
+			log.Println(string(d))
+		}
+	}
+
 	if err != nil {
 		return nil, err
 	}
