@@ -53,9 +53,9 @@ const (
 	ACTION_STOP                = 2
 	ACTION_PAUSE               = 3
 	ACTION_START_SUPERFREEZING = 4
-	STOP_SUPERFREEZING         = 5
-	START_SUPERCOOLING         = 6
-	STOP_SUPERCOOLING          = 7
+	ACTION_STOP_SUPERFREEZING  = 5
+	ACTION_START_SUPERCOOLING  = 6
+	ACTION_STOP_SUPERCOOLING   = 7
 )
 
 const (
@@ -106,6 +106,30 @@ type State struct {
 		FullRemoteControl bool `json:"fullRemoteControl"`
 		SmartGrid         bool `json:"smartGrid"`
 	} `json:"remoteEnable"`
+	Light         int   `json:"light"`
+	ElapsedTime   []int `json:"elapsedTime"`
+	SpinningSpeed struct {
+		Unit           string `json:"unit"`
+		ValueRaw       int    `json:"value_raw"`
+		ValueLocalized string `json:"value_localized"`
+		KeyLocalized   string `json:"key_localized"`
+	} `json:"spinningSpeed"`
+	DryingStep      LocalizedValue   `json:"dryingStep"`
+	VentilationStep LocalizedValue   `json:"ventilationStep"`
+	PlateStep       []LocalizedValue `json:"plateStep"`
+	EcoFeedback     struct {
+		CurrentWaterConsumption struct {
+			Unit  string `json:"unit"`
+			Value int    `json:"value"`
+		} `json:"currentWaterConsumption"`
+		CurrentEnergyConsumption struct {
+			Unit  string `json:"unit"`
+			Value int    `json:"value"`
+		} `json:"currentEnergyConsumption"`
+		WaterForecast  float64 `json:"waterForecast"`
+		EnergyForecast float64 `json:"energyForecast"`
+	} `json:"ecoFeedback"`
+	BatteryLevel int `json:"batteryLevel"`
 }
 
 type Device struct {
@@ -122,17 +146,32 @@ type ShortDevice struct {
 }
 
 type DeviceAction struct {
-	ProcessAction     []int   `json:"processAction"`
-	Light             []int   `json:"light"`
-	StartTime         [][]int `json:"startTime"`
-	VentilationStep   []int   `json:"ventilationStep"`
-	ProgramId         []int   `json:"programId"`
+	ProcessAction   []int   `json:"processAction"`
+	Light           []int   `json:"light"`
+	StartTime       [][]int `json:"startTime"`
+	VentilationStep []int   `json:"ventilationStep"`
+
+	// Select a program, availability depends on device and device status.
+	ProgramId []int `json:"programId"`
+
 	TargetTemperature []struct {
 		Zone int `json:"zone"`
 		Min  int `json:"min"`
 		Max  int `json:"max"`
 	} `json:"targetTemperature"`
 	DeviceName bool `json:"deviceName"`
-	PowerOff   bool `json:"powerOff"`
-	PowerOn    bool `json:"powerOn"`
+
+	// powerOff device from on state to off state
+	// availability depends on device and device status
+	PowerOff bool `json:"powerOff"`
+
+	// powerOn device from off state to on state
+	// availability depends on device and device status
+	PowerOn bool `json:"powerOn"`
+
+	// change the ambient light color of a cooker hood.
+	Colors string `json:"colors"`
+
+	// Switch device in special operation modes.
+	Modes int `json:"modes"`
 }
