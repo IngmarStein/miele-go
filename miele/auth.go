@@ -1,22 +1,24 @@
 package miele
 
 import (
-	"golang.org/x/oauth2"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strconv"
 	"strings"
+
+	"golang.org/x/oauth2"
 )
 
 var Endpoint = oauth2.Endpoint{
-	AuthURL:  "https://api.mcs3.miele.com/thirdparty/login",
-	TokenURL: "https://api.mcs3.miele.com/thirdparty/token",
+	AuthURL:   "https://api.mcs3.miele.com/thirdparty/login",
+	TokenURL:  "https://api.mcs3.miele.com/thirdparty/token",
+	AuthStyle: oauth2.AuthStyleInParams,
 }
 
 // AuthTransport can be used to add the required custom fields for an
 // OAuth2 client using golang.org/x/oauth2.
-// VG is the locale used when registering the Miel@Home account.
+// VG is the locale used when registering the Miele@Home account.
 //
 // Example:
 // hc := &http.Client{Transport: &miele.AuthTransport{VG: *vg}}

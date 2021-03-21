@@ -4,8 +4,10 @@ package miele
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
+	"golang.org/x/oauth2"
 	"io"
 	"log"
 	"net/http"
@@ -28,6 +30,26 @@ type Client struct {
 	Verbose   bool
 
 	client *http.Client
+}
+
+// NewClientWithAuth returns a new Miele API client using the supplied credentials.
+func NewClientWithAuth(clientID, clientSecret, vg, username, password string) *Client {
+	conf := &oauth2.Config{
+		ClientID:     clientID,
+		ClientSecret: clientSecret,
+		Endpoint:     Endpoint,
+	}
+
+	hc := &http.Client{Transport: &AuthTransport{VG: vg}}
+	ctx := context.WithValue(context.Background(), oauth2.HTTPClient, hc)
+
+	token, err := conf.PasswordCredentialsToken(ctx, username, password)
+	if err != nil {
+		log.Fatalf("error retrieving Miele token: %v", err)
+	}
+
+	oauthClient := conf.Client(context.Background(), token)
+	return NewClient(oauthClient)
 }
 
 // NewClient returns a new Miele API client. If a nil httpClient is
