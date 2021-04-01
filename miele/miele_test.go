@@ -175,8 +175,21 @@ func roundTrip(req *http.Request) (*http.Response, error) {
         "value_localized": "",
         "key_localized": "Power Level"
       },
-      "plateStep": []
-    }
+      "plateStep": [],
+      "ecoFeedback": {
+        "currentWaterConsumption": {
+          "unit": "l",
+          "value": 26.0
+        },
+		"currentEnergyConsumption": {
+          "unit": "kWh",
+          "value": 2.0
+        },
+        "waterForecast": 0.2,
+        "energyForecast": 0.1
+      },
+      "batteryLevel": null
+	}
   }
 }`), nil
 	}
