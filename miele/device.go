@@ -119,12 +119,12 @@ type State struct {
 	PlateStep       []LocalizedValue `json:"plateStep"`
 	EcoFeedback     struct {
 		CurrentWaterConsumption struct {
-			Unit  string `json:"unit"`
-			Value int    `json:"value"`
+			Unit  string  `json:"unit"`
+			Value float64 `json:"value"`
 		} `json:"currentWaterConsumption"`
 		CurrentEnergyConsumption struct {
-			Unit  string `json:"unit"`
-			Value int    `json:"value"`
+			Unit  string  `json:"unit"`
+			Value float64 `json:"value"`
 		} `json:"currentEnergyConsumption"`
 		WaterForecast  float64 `json:"waterForecast"`
 		EnergyForecast float64 `json:"energyForecast"`
