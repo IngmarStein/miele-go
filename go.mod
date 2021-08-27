@@ -1,6 +1,6 @@
 module github.com/ingmarstein/miele-go
 
-go 1.16
+go 1.17
 
 require (
 	github.com/golang/protobuf v1.4.3 // indirect
@@ -9,3 +9,5 @@ require (
 	golang.org/x/oauth2 v0.0.0-20200902213428-5d25da1a8d43
 	google.golang.org/appengine v1.6.7 // indirect
 )
+
+require google.golang.org/protobuf v1.25.0 // indirect
