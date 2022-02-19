@@ -1,33 +1,17 @@
 package miele
 
 import (
-	"bytes"
-	"fmt"
-	"io/ioutil"
 	"net/http"
+	"net/http/httptest"
+	"net/url"
 	"testing"
 )
 
-type RoundTripFunc func(req *http.Request) (*http.Response, error)
-
-func (f RoundTripFunc) RoundTrip(req *http.Request) (*http.Response, error) {
-	return f(req)
-}
-
-func makeResponse(statusCode int, body string) *http.Response {
-	return &http.Response{
-		StatusCode: statusCode,
-		// Send response to be tested
-		Body: ioutil.NopCloser(bytes.NewBufferString(body)),
-		// Must be set to non-nil value or it panics
-		Header: make(http.Header),
-	}
-}
-
-func roundTrip(req *http.Request) (*http.Response, error) {
-	switch req.URL.String() {
-	case defaultBaseURL + "short/devices":
-		return makeResponse(http.StatusOK, `
+// newTestServer returns a *httptest.Server serving mock responses for the Miele API.
+func newTestServer() *httptest.Server {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/short/devices", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(`
 [
   {
     "fabNumber": "000100000000",
@@ -42,9 +26,11 @@ func roundTrip(req *http.Request) (*http.Response, error) {
     "type": "Dishwasher",
     "deviceName": "",
     "details": "https://api.mcs3.miele.com/v1/devices/000100000001"
-  }]`), nil
-	case defaultBaseURL + "devices":
-		return makeResponse(http.StatusOK, `
+  }
+]`))
+	})
+	mux.HandleFunc("/devices", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(`
 {
   "000100000001": {
     "ident": {
@@ -191,21 +177,24 @@ func roundTrip(req *http.Request) (*http.Response, error) {
       "batteryLevel": null
 	}
   }
-}`), nil
-	}
-
-	return nil, fmt.Errorf("unexpected URL in test: %s", req.URL.String())
+}`))
+	})
+	return httptest.NewServer(mux)
 }
 
-//NewTestClient returns *http.Client with Transport replaced to avoid making real calls
-func newTestClient() *http.Client {
-	return &http.Client{
-		Transport: RoundTripFunc(roundTrip),
+func newTestClient(t *testing.T, svr *httptest.Server) *Client {
+	t.Helper()
+	baseURL, err := url.Parse(svr.URL + "/")
+	if err != nil {
+		t.Fatal(err)
 	}
+	return &Client{client: http.DefaultClient, BaseURL: baseURL, UserAgent: userAgent}
 }
 
 func TestListShortDevices(t *testing.T) {
-	client := NewClient(newTestClient())
+	svr := newTestServer()
+	defer svr.Close()
+	client := newTestClient(t, svr)
 	resp, err := client.ListShortDevices(ListShortDevicesRequest{})
 	if err != nil {
 		t.Fatal(err)
@@ -221,7 +210,9 @@ func TestListShortDevices(t *testing.T) {
 }
 
 func TestListDevices(t *testing.T) {
-	client := NewClient(newTestClient())
+	svr := newTestServer()
+	defer svr.Close()
+	client := newTestClient(t, svr)
 	resp, err := client.ListDevices(ListDevicesRequest{})
 	if err != nil {
 		t.Fatal(err)
