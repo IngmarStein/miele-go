@@ -1,7 +1,7 @@
 package miele
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -28,7 +28,7 @@ type AuthTransport struct {
 }
 
 func (t *AuthTransport) RoundTrip(req *http.Request) (*http.Response, error) {
-	body, err := ioutil.ReadAll(req.Body)
+	body, err := io.ReadAll(req.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +42,7 @@ func (t *AuthTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	vals.Set("vg", t.VG)
 
 	buf := strings.NewReader(vals.Encode())
-	req.Body = ioutil.NopCloser(buf)
+	req.Body = io.NopCloser(buf)
 	req.Header.Set("User-Agent", userAgent)
 	req.Header.Set("Content-Length", strconv.Itoa(buf.Len()))
 	req.ContentLength = int64(buf.Len())
