@@ -116,7 +116,7 @@ func (c *Client) do(req *http.Request, v interface{}) (*http.Response, error) {
 
 	resp, err := c.client.Do(req)
 
-	if c.Verbose {
+	if c.Verbose && resp != nil {
 		if d, err := httputil.DumpResponse(resp, true); err == nil {
 			log.Println(string(d))
 		}
@@ -126,7 +126,7 @@ func (c *Client) do(req *http.Request, v interface{}) (*http.Response, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusNoContent {
+	if resp.StatusCode >= 200 && resp.StatusCode < 300 && resp.StatusCode != http.StatusNoContent {
 		err = json.NewDecoder(resp.Body).Decode(v)
 	}
 	return resp, err
