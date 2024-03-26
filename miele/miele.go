@@ -33,7 +33,7 @@ type Client struct {
 }
 
 // NewClientWithAuth returns a new Miele API client using the supplied credentials.
-func NewClientWithAuth(clientID, clientSecret, vg, username, password string) *Client {
+func NewClientWithAuth(clientID, clientSecret, vg, username, password string) (*Client, error) {
 	conf := &oauth2.Config{
 		ClientID:     clientID,
 		ClientSecret: clientSecret,
@@ -45,11 +45,11 @@ func NewClientWithAuth(clientID, clientSecret, vg, username, password string) *C
 
 	token, err := conf.PasswordCredentialsToken(ctx, username, password)
 	if err != nil {
-		log.Fatalf("error retrieving Miele token: %v", err)
+		return nil, fmt.Errorf("error retrieving Miele token: %v", err)
 	}
 
 	oauthClient := conf.Client(context.Background(), token)
-	return NewClient(oauthClient)
+	return NewClient(oauthClient), nil
 }
 
 // NewClient returns a new Miele API client. If a nil httpClient is
